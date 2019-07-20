@@ -1,6 +1,6 @@
-export const prueba = (id) => {
+export const Home = (id) => {
     return{
-        type: "prueba",
+        type: "Home",
         payload: id
     }
 }

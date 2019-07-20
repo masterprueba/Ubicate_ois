@@ -11,7 +11,9 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import {Provider} from 'react-redux';
 import { createStore } from 'redux';
 import Reducers from './reducers';
+// import {store} from './store.js'
 import { createAppContainer, createStackNavigator } from 'react-navigation';
+import Home from './Home'
 import Prueba from './prueba'
 import Prueba2 from './prueba2'
 
@@ -19,7 +21,7 @@ import Prueba2 from './prueba2'
 export default class App extends Component {
   render() {
     let RootStack = createStackNavigator({
-      inicial: Prueba,
+      inicial: Home,
       final: Prueba2
     });
     
@@ -27,6 +29,7 @@ export default class App extends Component {
     let Navigation = createAppContainer(RootStack);
     
     return (
+      // <Provider store={store}>
      <Provider store={createStore(Reducers)}>
        <Navigation />
      </Provider>
