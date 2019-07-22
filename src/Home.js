@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-    Platform, StyleSheet, Text,
+    Text,
     View, FlatList, TouchableOpacity,
-    Image, SafeAreaView, ImageBackground
+    Image, SafeAreaView, ImageBackground, Alert
 } from 'react-native';
 import ic_menu from './resources/Image/list.png'
 import ic_bandera from './resources/Image/banner.png'
@@ -12,16 +12,16 @@ import * as actions from './actions'
 import { connect } from 'react-redux'
 
 
-console.disableYellowBox = true;
+
 
 const menu = [
-    { 'title': 'Guía de Cali' },
-    { 'title': 'Inicio' },
-    { 'title': 'Favoritos' },
-    { 'title': 'Hoteles' },
-    { 'title': 'Sitios Turísticos' },
-    { 'title': 'Comidas & Bebidas' },
-    { 'title': 'Gestion Administrativa' }
+    { 'title': 'Guía de Cali', 'enlace':'guia' },
+    { 'title': 'Inicio', 'enlace':'inicio' },
+    { 'title': 'Favoritos', 'enlace':'favorito'},
+    { 'title': 'Hoteles', 'enlace':'hotel' },
+    { 'title': 'Sitios Turísticos', 'enlace':'sitio' },
+    { 'title': 'Comidas & Bebidas', 'enlace':'comida' },
+    { 'title': 'Gestion Administrativa', 'enlace':'gestion' }
 ]
 
 class Home extends Component {
@@ -54,7 +54,8 @@ class Home extends Component {
                         }
                         if (index == 0) {
                             return (
-                                <TouchableOpacity style={styles.menuTitleContainerHead}>
+                                <TouchableOpacity style={styles.menuTitleContainerHead}
+                                onPress={this.openIcon.bind(this,index)}>
                                     <ImageBackground source={ic_bandera} style={
                                         {
                                              width: '100%', 
@@ -69,7 +70,8 @@ class Home extends Component {
                             )
                         } else {
                             return (
-                                <TouchableOpacity style={styles.menuTitleContainer}>
+                                <TouchableOpacity style={styles.menuTitleContainer}
+                                onPress={this.openIcon.bind(this,index)}>
                                     <Image style={styles.menuIcon} source={ic_menu} />
                                     <Text style={styles.menuSplit}>|</Text>
                                     <Text style={styles.menuTitle}
@@ -91,6 +93,10 @@ class Home extends Component {
 
     closeDrawer() {
         this.drawer.close()
+    }
+
+    openIcon(index){                     
+         this.props.navigation.navigate(menu[index].enlace); 
     }
 
     render() {

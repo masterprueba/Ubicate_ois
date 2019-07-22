@@ -3,9 +3,9 @@ import { Text, View, Button} from 'react-native'
 import * as actions from './actions'
 import {connect} from 'react-redux'
 
-class Prueba2 extends Component{
+class Inicio extends Component{
 static navigationOptions = {
-    title: 'prueba 2',
+    title: 'Inicio',
   };
 
   tab2(){
@@ -29,4 +29,4 @@ const mapStateToProps = state =>{
     return {id: state.pruebaid}
 }
 
-export default connect(mapStateToProps, actions)(Prueba2)
+export default connect(mapStateToProps, actions)(Inicio)

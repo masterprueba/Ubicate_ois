@@ -7,22 +7,33 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Provider} from 'react-redux';
 import { createStore } from 'redux';
 import Reducers from './reducers';
 // import {store} from './store.js'
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import Home from './Home'
-import Prueba from './prueba'
-import Prueba2 from './prueba2'
+import Inicio from './inicio'
+import Favoritos from './Favoritos';
+import Hotel from './Hotel';
+import SitioTuristico from './SitioTuristico';
+import ComidaBebida from './ComidaBebida';
+import GestionAdministrativa from './GestionAdministrativa';
+import Guia from './Guia';
 
 
 export default class App extends Component {
   render() {
     let RootStack = createStackNavigator({
       inicial: Home,
-      final: Prueba2
+      inicio: Inicio,
+      guia:Guia,
+      favorito: Favoritos,
+      hotel: Hotel,
+      sitio:SitioTuristico,
+      comida:ComidaBebida,
+      gestion:GestionAdministrativa
     });
     
     // And the app container
