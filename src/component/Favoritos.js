@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Text, View, Button, Image,StyleSheet} from 'react-native'
-import * as actions from './actions'
+import * as actions from '../actions'
 import {connect} from 'react-redux'
 
 
@@ -10,7 +10,7 @@ class Favoritos extends Component{
       };
 
       tab(){
-        this.props.prueba("ir a pantalla 1")
+        // this.props.prueba("ir a pantalla 1")
         this.props.navigation.navigate('inicial');        
       }
     render(){
@@ -18,14 +18,14 @@ class Favoritos extends Component{
         return(
             <View>
                 <Text>prueba</Text>
-                <Button title={this.props.id} onPress={this.tab.bind(this)}></Button>                             
+                {/* <Button title={this.props.id} onPress={this.tab.bind(this)}></Button>                              */}
             </View>
         )
     }
 }
 
-const mapStateToProps = state =>{
-    return {id: state.pruebaid}
-}
+// const mapStateToProps = state =>{
+//     return {id: state.pruebaid}
+// }
 
-export default connect(mapStateToProps, actions)(Favoritos)
+export default connect(null, actions)(Favoritos)

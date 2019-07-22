@@ -1,7 +1,7 @@
-export default (state = 'tab_1', action) =>{
-    switch(action.type){
-        case "Home":
-            return action.payload        
+export default (state = "Inicio", action) =>{
+    switch(action.index){
+        case 1:
+            return "Inicio"       
         default:
             return state
     }

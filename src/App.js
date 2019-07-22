@@ -14,20 +14,20 @@ import Reducers from './reducers';
 // import {store} from './store.js'
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import Home from './Home'
-import Inicio from './inicio'
-import Favoritos from './Favoritos';
-import Hotel from './Hotel';
-import SitioTuristico from './SitioTuristico';
-import ComidaBebida from './ComidaBebida';
-import GestionAdministrativa from './GestionAdministrativa';
-import Guia from './Guia';
+import Inicio from './component/Inicio'
+import Favoritos from './component/Favoritos';
+import Hotel from './component/Hotel';
+import SitioTuristico from './component/SitioTuristico';
+import ComidaBebida from './component/ComidaBebida';
+import GestionAdministrativa from './component/GestionAdministrativa';
+import Guia from './component/Guia';
 
 
 export default class App extends Component {
   render() {
     let RootStack = createStackNavigator({
       inicial: Home,
-      inicio: Inicio,
+      inicio: Home,
       guia:Guia,
       favorito: Favoritos,
       hotel: Hotel,

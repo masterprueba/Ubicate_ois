@@ -7,33 +7,36 @@ import {
 import ic_menu from './resources/Image/list.png'
 import ic_bandera from './resources/Image/banner.png'
 import iconHome from './resources/Image/007-tent.png'
+import iconHotel from './resources/Image/029-hotel.png'
+import iconStart from './resources/Image/Estrella.png'
+import iconSite from './resources/Image/037-direction.png'
+import iconFastFood from './resources/Image/034-fast-food.png'
+import iconLoguin from './resources/Image/019-lodging.png'
 import Drawer from 'react-native-drawer'
 import * as actions from './actions'
 import { connect } from 'react-redux'
 
-
-
-
 const menu = [
-    { 'title': 'Guía de Cali', 'enlace':'guia' },
-    { 'title': 'Inicio', 'enlace':'inicio' },
-    { 'title': 'Favoritos', 'enlace':'favorito'},
-    { 'title': 'Hoteles', 'enlace':'hotel' },
-    { 'title': 'Sitios Turísticos', 'enlace':'sitio' },
-    { 'title': 'Comidas & Bebidas', 'enlace':'comida' },
-    { 'title': 'Gestion Administrativa', 'enlace':'gestion' }
+    { 'title': 'Guía de Cali', 'enlace': 'guia' },
+    { 'title': 'Inicio', 'enlace': 'inicio' },
+    { 'title': 'Favoritos', 'enlace': 'favorito' },
+    { 'title': 'Hoteles', 'enlace': 'hotel' },
+    { 'title': 'Sitios Turísticos', 'enlace': 'sitio' },
+    { 'title': 'Comidas & Bebidas', 'enlace': 'comida' },
+    { 'title': 'Gestion Administrativa', 'enlace': 'gestion' }
 ]
 
 class Home extends Component {
+    
+    constructor(props) {
+        super(props)
 
-    // constructor(props) {
-    //     super(props)
-
-    // }
+    }
 
     static navigationOptions = {
         title: `¡Ubicate Oís!`,
     };
+    
 
     renderDrawer() {
         //SlideMenu
@@ -44,23 +47,17 @@ class Home extends Component {
                     data={menu}
                     extraData={this.state}
                     renderItem={({ item, index }) => {
-                        console.log("index", index)
-                        let icon = ic_menu;
-                        switch(index){
-                            case 1:
-                                icon = iconHome
-                            default:
-                                null
-                        }
+                        // console.log("index", index)
+
                         if (index == 0) {
                             return (
                                 <TouchableOpacity style={styles.menuTitleContainerHead}
-                                onPress={this.openIcon.bind(this,index)}>
+                                    onPress={this.openIcon.bind(this, index)}>
                                     <ImageBackground source={ic_bandera} style={
                                         {
-                                             width: '100%', 
-                                             height: '90%'
-                                        }}> 
+                                            width: '100%',
+                                            height: '90%'
+                                        }}>
                                         <Text style={styles.menuHead}
                                             key={index}>
                                             {item.title}
@@ -69,10 +66,34 @@ class Home extends Component {
                                 </TouchableOpacity>
                             )
                         } else {
+                            let icon;
+                            switch (index) {
+                                case 1:
+                                    // Alert.alert("66");
+                                    icon = iconHome
+                                    break
+                                case 2:
+                                    icon = iconStart
+                                    break
+                                case 3:
+                                    icon = iconHotel
+                                    break
+                                case 4:
+                                    icon = iconSite
+                                    break
+                                case 5:
+                                    icon = iconFastFood
+                                    break
+                                case 6:
+                                    icon = iconLoguin
+                                    break
+                                default:
+
+                            }
                             return (
                                 <TouchableOpacity style={styles.menuTitleContainer}
-                                onPress={this.openIcon.bind(this,index)}>
-                                    <Image style={styles.menuIcon} source={ic_menu} />
+                                    onPress={this.openIcon.bind(this, index)}>
+                                    <Image style={styles.menuIcon} source={icon} />
                                     <Text style={styles.menuSplit}>|</Text>
                                     <Text style={styles.menuTitle}
                                         key={index}>
@@ -95,8 +116,11 @@ class Home extends Component {
         this.drawer.close()
     }
 
-    openIcon(index){                     
-         this.props.navigation.navigate(menu[index].enlace); 
+    openIcon(index) {
+        this.props.navigation.navigate(menu[index].enlace);
+        // this.props.nameTitle(index);
+        this.props.titleContent(index)
+        console.log(this.props);     
     }
 
     render() {
@@ -118,21 +142,22 @@ class Home extends Component {
                                     <Image style={{ tintColor: 'white' }} source={ic_menu} />
                                 </TouchableOpacity>
                             </View>
-                            <Text style={styles.headerTitle}>DRAWER</Text>
+                            <Text style={styles.headerTitle}>{this.props.nameTitle}</Text>
                             <View style={styles.menuButton} />
                         </View>
-                    </Drawer>
+                        <Text>{this.props.nameTitle}</Text>
+                    </Drawer>                    
                 </View>
             </SafeAreaView>
         );
     }
 }
 
-// const mapStateToProps = state =>{
-//     return {id: state.pruebaid}
-// }
+const mapStateToProps = state =>{
+    return {nameTitle: state.homeReducer}
+}
 
-export default connect(null, actions)(Home)
+export default connect(mapStateToProps, actions)(Home)
 
 const drawerStyles = {
     drawer: {
@@ -181,18 +206,24 @@ const styles = {
         height: 60,
         width: '100%',
         flexDirection: 'row',
+        borderRadius: 8,
+        borderWidth: 0.5,
+        borderColor: '#d6d7da',
+        // paddingTop: 10
     },
     menuTitle: {
         // width: '100%',
         color: 'white',
-        flex: 8,
+        flex: 7,
         // textAlign: 'center',
         fontSize: 17,
-        // alignSelf: 'center',
+        alignSelf: 'center',
     },
     menuIcon: {
-        tintColor: 'white',
-        flex: 1
+        // tintColor: 'white',
+        flex: 2,
+        width: "100%",
+        height: "99%"
     },
     menuSplit: {
         color: '#3B5998',
@@ -205,15 +236,15 @@ const styles = {
         textAlign: 'center',
         fontSize: 45,
         alignSelf: 'center',
-        fontWeight: 'bold',        
-        opacity:0.6,
+        fontWeight: 'bold',
+        opacity: 0.6,
         backgroundColor: 'rgb(59,89,152)',
     },
     menuTitleContainerHead: {
         alignItem: 'center',
         height: 120,
         width: '100%',
-        flexDirection: 'row',        
+        flexDirection: 'row',
         // backgroundColor: 'rgba(212,228,239,1)'        
     }
 }

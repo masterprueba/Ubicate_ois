@@ -1,6 +1,12 @@
-export const Home = (id) => {
+// export const Home = (id) => {
+//     return{
+//         type: "Home",
+//         payload: id
+//     }
+// }
+export const titleContent = (index) => {
     return{
-        type: "Home",
-        payload: id
+        type:index,
+        payload: index
     }
 }

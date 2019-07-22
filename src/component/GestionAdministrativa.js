@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import { Text, View, Button, Image,StyleSheet} from 'react-native'
-import * as actions from './actions'
+import * as actions from '../actions'
 import {connect} from 'react-redux'
 
 
-class ComidaBebida extends Component{
+class GestionAdministrativa extends Component{
     static navigationOptions = {
-        title: `Comidas y Bebidas`,
+        title: 'Gestion Administrativa',
       };
 
       tab(){
@@ -28,4 +28,4 @@ const mapStateToProps = state =>{
     return {id: state.pruebaid}
 }
 
-export default connect(mapStateToProps, actions)(ComidaBebida)
+export default connect(mapStateToProps, actions)(GestionAdministrativa)
