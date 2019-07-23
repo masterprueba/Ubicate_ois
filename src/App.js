@@ -26,8 +26,8 @@ import Guia from './component/Guia';
 export default class App extends Component {
   render() {
     let RootStack = createStackNavigator({
-      inicial: Home,
-      inicio: Home,
+      inicial: Inicio,
+      inicio: Inicio,
       guia:Guia,
       favorito: Favoritos,
       hotel: Hotel,
