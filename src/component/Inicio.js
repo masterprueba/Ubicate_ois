@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, Button, } from 'react-native'
 import * as actions from '../actions'
 import { connect } from 'react-redux'
 import { MenuBase } from './MenuBase'
+import { HeaderStyleInterpolator } from 'react-navigation';
 
 class Inicio extends Component {
 
@@ -42,26 +43,23 @@ class Inicio extends Component {
 
 
     render() {
-        // console.log(this.props)
-        
-        // console.log("this.props 33", this.props);
 
-        let content =
-            <Text>Inicio</Text>
+          let content =
+          <Text>Inicio</Text>
 
         let data = {
             title: 'Inicio',
             content: content
         }
 
+
         return (
-            <MenuBase data={data} navigation={this.props.navigation}></MenuBase>
-            // <View>
-            //     <Text>Hola</Text>
-            // </View>
+             <MenuBase data={data} navigation={this.props.navigation}></MenuBase>
+            
         )
     }
 }
+
 
 // const mapStateToProps = state =>{
 //     return {id: state.pruebaid}

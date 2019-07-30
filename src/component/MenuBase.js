@@ -30,7 +30,7 @@ export  class MenuBase extends Component {
     
     constructor(props) {
         super(props)
-        // console.log("this.props",this.props)
+         console.log("this.props menu ",this.props)
     }
 
     // render() {
@@ -114,8 +114,9 @@ export  class MenuBase extends Component {
         )
     }
 
-    openDrawer() {
+    openDrawer() {        
         this.drawer.open()
+        
     }
 
     closeDrawer() {

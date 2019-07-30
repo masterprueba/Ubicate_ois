@@ -21,6 +21,7 @@ import SitioTuristico from './component/SitioTuristico';
 import ComidaBebida from './component/ComidaBebida';
 import GestionAdministrativa from './component/GestionAdministrativa';
 import Guia from './component/Guia';
+import DetalleSitio from './component/DetalleSitio';
 
 
 export default class App extends Component {
@@ -33,7 +34,8 @@ export default class App extends Component {
       hotel: Hotel,
       sitio:SitioTuristico,
       comida:ComidaBebida,
-      gestion:GestionAdministrativa
+      gestion:GestionAdministrativa,
+      detalleSitio:DetalleSitio
     });
     
     // And the app container
