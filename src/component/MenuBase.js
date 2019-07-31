@@ -153,7 +153,7 @@ export  class MenuBase extends Component {
                             <View style={styles.menuButton} />
                         </View>
                         {/* /Contenido */}
-                        <View>
+                        <View style={{ backgroundColor: "#C5CAE9" }}>
                             {this.props.data.content}
                         </View>
                     </Drawer>                    
@@ -178,11 +178,12 @@ const drawerStyles = {
 const styles = {
     mainContainer: {
         flex: 1.0,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        // backgroundColor: "#C5CAE9"
     },
     safeAreaStyle: {
         flex: 1.0,
-        backgroundColor: '#3B5998',
+        backgroundColor: '#3B5998'
     },
     headerContainer: {
         height: 44,

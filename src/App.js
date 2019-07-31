@@ -36,6 +36,7 @@ export default class App extends Component {
       comida:ComidaBebida,
       gestion:GestionAdministrativa,
       detalleSitio:DetalleSitio
+
     });
     
     // And the app container

@@ -7,6 +7,13 @@
 export const titleContent = (index) => {
     return{
         type:index,
-        payload: index
+        payload: index 
+    }
+}
+
+export const actionDetSitio = (data) => {
+    return{
+        type:"DetalleSitio",
+        payload: data
     }
 }

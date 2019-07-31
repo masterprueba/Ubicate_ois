@@ -1,22 +1,65 @@
-import React, {Component} from 'react'
-import { Text, View, Button, Image,StyleSheet} from 'react-native'
+import React, { Component } from 'react'
+import { Text, View, Button, Image, StyleSheet, TextInput } from 'react-native'
 import * as actions from '../actions'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { MenuBase } from './MenuBase'
+import styled from 'styled-components'
+import logoInicio from '../resources/Image/logo-inicio.png'
 
 
-class GestionAdministrativa extends Component{
+class GestionAdministrativa extends Component {
     static navigationOptions = {
         title: 'Gestión Administrativa',
-      };
+    };
 
-      tab(){
+    tab() {
         // this.props.prueba("ir a pantalla 1")
         // this.props.navigation.navigate('inicial');        
-      }
-    render(){
+    }
+    render() {
+
+        const Container = styled.View`
+        
+        padding:10px 0 30px;
+        justify-content:center;
+        background-color:#f4f4f4; 
+        margin-bottom:20px;       
+        align-items:center`
+
+        const Item = styled.View`            
+            border:1px solid #ccc;
+            margin:2px 0;
+            border-radius:10px;
+            box-shadow:0 0 10px #ccc;
+            background-color:#fff;
+            width:80%;  
+            height:220;          
+            padding:10px;`
+
+
         let content =
-            <Text>Gestión Administrativa</Text>
+            <View>
+                <Container style={{ backgroundColor: "#C5CAE9" }}>
+                    <Item>
+                        <Image source={logoInicio} style={{ height: "100%", width: "100%" }} />
+
+                    </Item>
+                </Container>
+                <Container style={{ backgroundColor: "#C5CAE9" }}>
+                    <Item >
+                        <TextInput
+                            style={styles.texto}
+                            placeholder="Ingrese su usuario"
+                            autoFocus
+                        />
+                        <TextInput
+                            style={styles.texto}
+                            placeholder="Ingrese su contraseña" 
+                        />
+                        <Button title={"Ingresar"} />
+                    </Item>
+                </Container>
+            </View>
 
         let data = {
             title: 'Gestión Administrativa',
@@ -29,8 +72,31 @@ class GestionAdministrativa extends Component{
     }
 }
 
-const mapStateToProps = state =>{
-    return {id: state.pruebaid}
+// const mapStateToProps = state =>{
+//     return {id: state.pruebaid}
+// }
+
+const styles = {
+    header: {
+
+    },
+    cajaimg: {
+        backgroundColor: "#9999",
+        alignSelf: 'center',
+        opacity: 8,
+        position: "absolute",
+        top: 180,
+        height: 30,
+        width: 250
+    },
+    texto: {
+        color: "white",
+        fontSize: 20,
+        textAlign: 'center',
+    },
+    itemForm:{
+        flexDirection: 'row'
+    }
 }
 
-export default connect(mapStateToProps, actions)(GestionAdministrativa)
+export default connect(null, actions)(GestionAdministrativa)
