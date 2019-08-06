@@ -30,7 +30,7 @@ export  class MenuBase extends Component {
     
     constructor(props) {
         super(props)
-         console.log("this.props menu ",this.props)
+         
     }
 
     // render() {
@@ -53,6 +53,7 @@ export  class MenuBase extends Component {
                     style={{ flex: 1.0 }}
                     data={menu}
                     extraData={this.state}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => {
 
                         if (index == 0) {

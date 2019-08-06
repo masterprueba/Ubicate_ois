@@ -9,11 +9,10 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {Provider} from 'react-redux';
-import { createStore } from 'redux';
-import Reducers from './reducers';
+import { PersistGate } from 'redux-persist/integration/react'
+import {store, persistor} from './store';
 // import {store} from './store.js'
 import { createAppContainer, createStackNavigator } from 'react-navigation';
-import Home from './Home'
 import Inicio from './component/Inicio'
 import Favoritos from './component/Favoritos';
 import Hotel from './component/Hotel';
@@ -22,6 +21,7 @@ import ComidaBebida from './component/ComidaBebida';
 import GestionAdministrativa from './component/GestionAdministrativa';
 import Guia from './component/Guia';
 import DetalleSitio from './component/DetalleSitio';
+
 
 
 export default class App extends Component {
@@ -44,8 +44,10 @@ export default class App extends Component {
     
     return (
       // <Provider store={store}>
-     <Provider store={createStore(Reducers)}>
-       <Navigation />
+     <Provider store={store}>
+       <PersistGate loading={null} persistor={persistor}>
+          <Navigation />
+      </PersistGate>       
      </Provider>
     );
   }

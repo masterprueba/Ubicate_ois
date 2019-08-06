@@ -3,6 +3,7 @@ import { Text, View, Button, Image, ScrollView, Alert, TouchableOpacity } from '
 import * as actions from '../actions'
 import { connect } from 'react-redux'
 import { MenuBase } from './MenuBase'
+import Api from '../utli/Api';
 import styled from 'styled-components'
 
 
@@ -18,40 +19,12 @@ class DestalleSitio extends Component {
         title: `Sitios Turisticos`,
     };
 
-    componentDidMount() {
-
-        this.getSitio();
+    async componentDidMount() {
+        const sitios = await Api.getSitios()
+        this.getSitio(sitios);
     }
 
-    getSitio() {
-
-        const sitios = [
-            {
-                uri: 'https://cdn.colombia.com/sdi/2012/11/28/acuaparque-de-la-cana-724146.jpg',
-                id: 1,
-                title: "Acuaparque De La Caña",
-                info: "El Acuaparque de la Caña es un espacio en el que la diversión está garantizada, aquí los planes en familia y con los amigos se convierten en memorables ...",
-
-            },
-            {
-                uri: 'https://cdn.colombia.com/sdi/2012/12/28/barrio-y-capilla-de-san-antonio-717962.jpg',
-                id: 2,
-                title: "Capilla De San Antonio",
-                info: "La Capilla de San Antonio, es de tipo barroco, se encuentra ubicada en la Colina de San Antonio en Santiago de Cali, Colombia"
-            },
-            {
-                uri: 'https://upload.wikimedia.org/wikipedia/commons/0/05/CENTRO_CULTURAL_DE_CALI.jpg',
-                id: 3,
-                title: "Centro Cultural De Cali",
-                info: "Con una arquitectura ecléctica que mezcla elementos modernos con medievales, este centro cultural recibió el Premio Nacional de Arquitectura en 1990."
-            },
-            {
-                uri: 'https://cdn.colombia.com/sdi/2012/11/29/iglesia-la-ermita-718053.jpg',
-                id: 4,
-                title: "Iglesia La Ermita",
-                info: "Uno de los símbolos  más representativos de la ciudad de Cali es la iglesia la Ermita del Río, una bella edificación en estilo gótico, sublime."
-            }
-        ];
+    getSitio(sitios) {                
 
         let params = this.props.navigation.state.params;
 
@@ -63,15 +36,15 @@ class DestalleSitio extends Component {
 
         console.log("data::", data);
         this.props.actionDetSitio(data);
-        console.log("this.props::", this.props);
+        console.log("this.props::", this.props.dataSitio.url);
     }
 
     render() {
 
         let content =
             <View /* style={styles.contenPadre} */>
-                <View style={styles.contenPadre}>
-                    <Image source={{ uri: this.props.dataSitio.uri }}
+                <View style={styles.contenPadre}>                
+                    <Image source={{ url: this.props.dataSitio.url }}
                         style={styles.contenImg} />
                 </View>
                 <View style={styles.contenPadre}>
@@ -80,7 +53,7 @@ class DestalleSitio extends Component {
             </View>
 
         let data = {
-            title: this.props.dataSitio.title.toUpperCase(),
+            title: this.props.dataSitio.title,
             content: content
         }
 
@@ -101,7 +74,7 @@ const styles = {
         flexDirection: 'row',
     },
     contenImg: {
-        flex: 20,
+ 
         height: 200
     },
     contenInfo: {

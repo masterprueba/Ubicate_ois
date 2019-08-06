@@ -4,13 +4,18 @@ import * as actions from '../actions'
 import { connect } from 'react-redux'
 import { MenuBase } from './MenuBase'
 import styled from 'styled-components'
+import Api from '../utli/Api';
+import {store, persistor} from '../store'
 
 
 class SitioTuristico extends Component {
 
-    constructor(props) {
-        super(props)
-
+    async componentDidMount(){
+        const sitios = await Api.getSitios()        
+        store.dispatch({
+            type :'GET_SISTIOS',
+            payload : sitios
+        })
     }
 
     static navigationOptions = {
@@ -21,36 +26,12 @@ class SitioTuristico extends Component {
         this.props.navigation.navigate("detalleSitio",
         {
             idSitio:id
-        });
+        });        
     }
 
-    tab() {
-        // this.props.prueba("ir a pantalla 1")
-        // this.props.navigation.navigate('inicial');        
-    }
+
     render() {
-        const sitios = [
-            {
-                uri: 'https://cdn.colombia.com/sdi/2012/11/28/acuaparque-de-la-cana-724146.jpg',
-                id: 1,
-                title: "Acuaparque de la caña"
-            },
-            {
-                uri: 'https://cdn.colombia.com/sdi/2012/12/28/barrio-y-capilla-de-san-antonio-717962.jpg',
-                id: 2,
-                title: "Capilla de san antonio"
-            },
-            {
-                uri: 'https://upload.wikimedia.org/wikipedia/commons/0/05/CENTRO_CULTURAL_DE_CALI.jpg',
-                id: 3,
-                title: "Centro cultural de cali"
-            },
-            {
-                uri: 'https://cdn.colombia.com/sdi/2012/11/29/iglesia-la-ermita-718053.jpg',
-                id: 4,
-                title: "Iglesia la ermita"
-            }
-        ];
+        
 
         const Container = styled.View`
         
@@ -73,11 +54,11 @@ class SitioTuristico extends Component {
 
         const sidebar = (
             <View style={{ backgroundColor: "#C5CAE9" }}>
-                {sitios.map((sitio) =>
+                {this.props.sitios.map((sitio) =>
                     <TouchableOpacity onPress={this._onPressButton.bind(this, this.props,sitio.id)} key={sitio.id}>
                         <Container style={{ backgroundColor: "#C5CAE9" }}>
                             <Item>
-                                <Image source={{ uri: sitio.uri }} style={{ height: 200 }} />
+                                <Image source={{ uri: sitio.url }} style={{ height: 200 }} />
                                 <View style={styles.cajaimg}>
                                     <Text style={styles.texto}>{sitio.title}</Text>
                                 </View>
@@ -126,7 +107,7 @@ const styles = {
 
 
 const mapStateToProps = state => {
-    return { id: state.pruebaid }
+    return { sitios:state.sitioReducer }
 }
 
 export default connect(mapStateToProps, actions)(SitioTuristico)
