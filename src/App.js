@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import {store, persistor} from './store';
@@ -21,6 +21,7 @@ import ComidaBebida from './component/ComidaBebida';
 import GestionAdministrativa from './component/GestionAdministrativa';
 import Guia from './component/Guia';
 import DetalleSitio from './component/DetalleSitio';
+import { TextLoader} from 'react-native-indicator';
 
 
 
@@ -41,11 +42,12 @@ export default class App extends Component {
     
     // And the app container
     let Navigation = createAppContainer(RootStack);
+    const loading = <View style={styles.loading}><TextLoader text="Cargando..." ></TextLoader></View>
     
     return (
       // <Provider store={store}>
      <Provider store={store}>
-       <PersistGate loading={null} persistor={persistor}>
+       <PersistGate loading={loading} persistor={persistor}>
           <Navigation />
       </PersistGate>       
      </Provider>
@@ -70,4 +72,11 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  loading:{
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    fontSize:90
+  }
 });
