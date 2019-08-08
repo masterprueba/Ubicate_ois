@@ -16,7 +16,11 @@ class DestalleSitio extends Component {
     }
 
     static navigationOptions = {
-        title: `Sitios Turisticos`,
+        title: `Detalle Sitio Turistico`,
+        headerTintColor:'white',
+          headerStyle: {
+            backgroundColor: '#3B5998',
+          }
     };
 
     async componentDidMount() {
@@ -41,24 +45,33 @@ class DestalleSitio extends Component {
 
     render() {
 
-        let content =
-            <View /* style={styles.contenPadre} */>
-                <View style={styles.contenPadre}>                
-                    <Image source={{ url: this.props.dataSitio.url }}
-                        style={styles.contenImg} />
-                </View>
-                <View style={styles.contenPadre}>
-                    <Text style={styles.contenInfo}>{ this.props.dataSitio.info }</Text>
-                </View>
-            </View>
+        // let content =
+        //     <View /* style={styles.contenPadre} */>
+        //         <View style={styles.contenPadre}>                
+        //             <Image source={{ url: this.props.dataSitio.url }}
+        //                 style={styles.contenImg} />
+        //         </View>
+        //         <View style={styles.contenPadre}>
+        //             <Text style={styles.contenInfo}>{ this.props.dataSitio.info }</Text>
+        //         </View>
+        //     </View>
 
-        let data = {
-            title: this.props.dataSitio.title,
-            content: content
-        }
+        // let data = {
+        //     title: this.props.dataSitio.title,
+        //     content: content
+        // }
 
         return (
-            <MenuBase data={data} navigation={this.props.navigation}></MenuBase>
+            // <MenuBase data={data} navigation={this.props.navigation}></MenuBase>
+            <View /* style={styles.contenPadre} */>
+            <View style={styles.contenPadre}>                
+                <Image source={{ url: this.props.dataSitio.url }}
+                    style={styles.contenImg} />
+            </View>
+            <View style={styles.contenPadre}>
+                <Text style={styles.contenInfo}>{ this.props.dataSitio.info }</Text>
+            </View>
+        </View>
         )
     }
 

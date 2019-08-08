@@ -6,6 +6,7 @@ import { MenuBase } from './MenuBase'
 import styled from 'styled-components'
 import Api from '../utli/Api';
 import {store, persistor} from '../store'
+import ic_menu from '../resources/Image/list.png'
 
 
 class SitioTuristico extends Component {
@@ -18,9 +19,22 @@ class SitioTuristico extends Component {
         })
     }
 
-    static navigationOptions = {
-        title: `Sitios Turisticos`,
-    };
+    static navigationOptions = ({ navigation }) => {        
+
+        return {                    
+          headerTitle:'Sitios Turísticos',
+          headerTintColor:'white',
+          headerStyle: {
+            backgroundColor: '#3B5998',
+          },
+          headerLeft : (
+            <TouchableOpacity
+                onPress={(e)=>{navigation.openDrawer()}}>
+                <Image style={{ tintColor: 'white', width:30, marginLeft:10 }} source={ic_menu} />
+            </TouchableOpacity>
+          ),
+        };
+    }
 
     _onPressButton(pr,id) {
         this.props.navigation.navigate("detalleSitio",
@@ -69,21 +83,26 @@ class SitioTuristico extends Component {
             </View>
         );
 
-        let content =
+        // let content =
+        //     <View >
+        //         <ScrollView>
+        //             {sidebar}
+        //         </ScrollView>
+        //     </View>
+
+
+        // let data = {
+        //     title: 'Sitios Turistico',
+        //     content: content
+        // }
+
+        return (
+            //<MenuBase data={data} navigation={this.props.navigation}></MenuBase>
             <View >
                 <ScrollView>
                     {sidebar}
                 </ScrollView>
             </View>
-
-
-        let data = {
-            title: 'Sitios Turistico',
-            content: content
-        }
-
-        return (
-            <MenuBase data={data} navigation={this.props.navigation}></MenuBase>
         )
     }
 }
