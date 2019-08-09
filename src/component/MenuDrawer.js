@@ -16,6 +16,7 @@ import iconStart from '../resources/Image/Estrella.png'
 import iconSite from '../resources/Image/037-direction.png'
 import iconFastFood from '../resources/Image/034-fast-food.png'
 import iconLoguin from '../resources/Image/019-lodging.png'
+import styled from 'styled-components'
 
 const WIDTH = Dimensions.get('window').width 
 const HEIGHT = Dimensions.get('window').height 
@@ -61,6 +62,7 @@ export default class MenuDrawer extends React.Component {
 	}
 
 	render() {
+		
 		return(
 			<View style={styles.container}>
 				<ScrollView style={styles.scroller}>
@@ -113,7 +115,7 @@ export default class MenuDrawer extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'lightgray',
+		//backgroundColor: 'lightgray',
 	},
 	scroller: {
 		flex: 1,
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,		
 		color:'black',
 		opacity: 0.6,
-		marginTop:30,
+		marginTop:20,
 		marginLeft:20
 	},
 	imgView: {
@@ -139,17 +141,17 @@ const styles = StyleSheet.create({
 	},
 	img: {
 		
-		height: 70,
-		width: 70,	
-		marginTop:55,
-		marginLeft:20
+		height: 35,
+		width: 35,	
+		marginTop:10,
+		marginLeft:10
 	},
 	topLinks:{
-		height: 170,			
+		height: 130,			
 	},
 	bottomLinks: {
 		flex: 1,
-		backgroundColor: 'white',
+		backgroundColor:'#C5CAE9',
 		paddingTop: 10,
 		paddingBottom: 450,
 	},
@@ -175,8 +177,20 @@ const styles = StyleSheet.create({
 		marginLeft: 20,
 		fontSize: 16,
 	},
-	textlink:{
-		height:70	
+	textlink:{		
+		height:60,
+		borderWidth: 1,
+		borderRadius: 20,
+		borderColor: '#ddd',
+		borderBottomWidth: 0,
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 20 },
+		shadowOpacity: 0.8,
+		shadowRadius: 10,		
+		elevation: 1,
+		marginLeft: 15,
+		marginRight: 15,
+		marginTop: 10		
 	},
 	menuIcon: {
 		// tintColor: 'white',
