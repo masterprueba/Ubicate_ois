@@ -43,7 +43,6 @@ class SitioTuristico extends Component {
         });        
     }
 
-
     render() {
         
 
@@ -83,21 +82,7 @@ class SitioTuristico extends Component {
             </View>
         );
 
-        // let content =
-        //     <View >
-        //         <ScrollView>
-        //             {sidebar}
-        //         </ScrollView>
-        //     </View>
-
-
-        // let data = {
-        //     title: 'Sitios Turistico',
-        //     content: content
-        // }
-
-        return (
-            //<MenuBase data={data} navigation={this.props.navigation}></MenuBase>
+        return (            
             <View >
                 <ScrollView>
                     {sidebar}

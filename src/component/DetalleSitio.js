@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, Button, Image, ScrollView, Alert, StyleSheet } from 'react-native'
+import { Text, View, Button, Image, ScrollView, Alert, StyleSheet, TouchableOpacity } from 'react-native'
 import * as actions from '../actions'
 import { connect } from 'react-redux'
-import { MenuBase } from './MenuBase'
 import Api from '../utli/Api';
 import styled from 'styled-components'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import iconMapa from '../resources/Image/mapa.png'
 
 
 class DestalleSitio extends Component {
@@ -18,10 +17,10 @@ class DestalleSitio extends Component {
 
     static navigationOptions = {
         title: `Detalle Sitio Turistico`,
-        headerTintColor:'white',
-          headerStyle: {
+        headerTintColor: 'white',
+        headerStyle: {
             backgroundColor: '#3B5998',
-          }
+        }
     };
 
     async componentDidMount() {
@@ -29,7 +28,7 @@ class DestalleSitio extends Component {
         this.getSitio(sitios);
     }
 
-    getSitio(sitios) {                
+    getSitio(sitios) {
 
         let params = this.props.navigation.state.params;
 
@@ -39,54 +38,84 @@ class DestalleSitio extends Component {
             }
         });
 
-        // console.log("data::", data);
         this.props.actionDetSitio(data);
-        // console.log("this.props::", this.props.dataSitio.url);
+    }
+
+    routeMap(e) {
+        // Alert.alert("Yupiiiiiiiiiiiiii");
+        this.props.navigation.navigate("mapa");
     }
 
     render() {
 
-        // let content =
-        //     <View /* style={styles.contenPadre} */>
-        //         <View style={styles.contenPadre}>                
-        //             <Image source={{ url: this.props.dataSitio.url }}
-        //                 style={styles.contenImg} />
-        //         </View>
-        //         <View style={styles.contenPadre}>
-        //             <Text style={styles.contenInfo}>{ this.props.dataSitio.info }</Text>
-        //         </View>
-        //     </View>
+        const Container = styled.View`
+        
+        padding:10px 0 24px;
+        justify-content:center;
+        background-color:#f4f4f4; 
+        margin-bottom:1px;       
+        align-items:center`
 
-        // let data = {
-        //     title: this.props.dataSitio.title,
-        //     content: content
-        // }
-        console.log(this.props.dataSitio.url)
-        return (
-            
-            // <MenuBase data={data} navigation={this.props.navigation}></MenuBase>
-            // <View /* style={styles.contenPadre} */>
-            // <View style={styles.contenPadre}>                
-            //     <Image source={{ uri: this.props.dataSitio.url }}
-            //         style={styles.contenImg} />
-            // </View>
-            // <View style={styles.contenPadre}>
-            //     <Text style={styles.contenInfo}>{ this.props.dataSitio.info }</Text>
-            // </View>
-            <View style={styles.container}>
-                <MapView
-                provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                style={styles.map}
-                region={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
-                }}
-                >
-                </MapView>
+        const Item = styled.View`            
+            border:1px solid #ccc;
+            margin:1px 0;
+            border-radius:10px;
+            box-shadow:0 0 10px #ccc;
+            background-color:#fff;
+            width:80%;  
+            height:220;          
+            padding:10px;`
+
+        const sidebar = (
+
+            <View>
+                <View style={styles.fondo}>
+                    <Container style={styles.fondo}>
+                        <Item>
+                            <Image source={{ uri: this.props.dataSitio.url }}
+                                style={styles.contenImg} />
+                        </Item>
+                    </Container>
+                </View>
+                <View style={styles.fondo}>
+                    <Container style={styles.fondo}>
+                        <Item>
+                            <Text style={styles.contenInfo}>
+                                {this.props.dataSitio.info}
+                            </Text>
+                        </Item>
+                    </Container>
+                </View>
+                <View style={styles.fondo}>
+                    {/* <MapView
+            //         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+            //         style={styles.map}
+            //         region={{
+            //             latitude: 37.78825,
+            //             longitude: -122.4324, 
+            //             latitudeDelta: 0.015,
+            //             longitudeDelta: 0.0121,
+            //         }}
+            //     >
+            //     </MapView> */}
+                    <TouchableOpacity onPress={(e) => { this.routeMap(e) }}>
+                        <Container style={{ backgroundColor: "#C5CAE9" }}>
+                            <Item>
+                                <Image source={iconMapa} style={{ height: '100%', width: '100%' }} />
+                            </Item>
+                        </Container>
+                    </TouchableOpacity>
+
+                </View>
             </View>
-        // </View>
+        );
+
+        return (
+            <View >
+                <ScrollView>
+                    {sidebar}
+                </ScrollView>
+            </View>
         )
     }
 
@@ -96,24 +125,50 @@ const mapStateToProps = state => {
     return { dataSitio: state.detalleReducer }
 }
 
+// const styles = StyleSheet.create({
+//     container: {
+//         ...StyleSheet.absoluteFillObject,
+//         height: 400,
+//         width: 400,
+//         justifyContent: 'flex-end',
+//         alignItems: 'center',
+//     },
+//     map: {
+//         ...StyleSheet.absoluteFillObject,
+//     },
+// });
 const styles = {
-    contenPadre: {
+    fondo: {
         // flex:100
         //flexDirection: 'row',
+        backgroundColor: "#C5CAE9"
     },
     contenImg: {
- 
+
         height: 200
     },
-    contenInfo: {        
-        color:"#2456bf",
-        fontSize:16
+    contenInfo: {
+        color: "#2456bf",
+        fontSize: 16
     },
-    container: {        
+    container: {
         height: 150,
         width: 200,
-        
-      },
+    },
+    cajaimg: {
+        backgroundColor: "#9999",
+        alignSelf: 'center',
+        opacity: 8,
+        position: "absolute",
+        top: 180,
+        height: 30,
+        width: 250
+    },
+    texto: {
+        color: "white",
+        fontSize: 20,
+        textAlign: 'center',
+    }
 }
 
 export default connect(mapStateToProps, actions)(DestalleSitio)

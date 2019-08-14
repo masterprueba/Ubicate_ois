@@ -23,6 +23,7 @@ import Guia from './component/Guia';
 import DetalleSitio from './component/DetalleSitio';
 import { TextLoader} from 'react-native-indicator';
 import MenuDrawer from './component/MenuDrawer'
+import Mapa from './component/Mapa'
 
 
 
@@ -37,8 +38,8 @@ export default class App extends Component {
       sitio:SitioTuristico,
       comida:ComidaBebida,
       gestion:GestionAdministrativa,
-      detalleSitio:DetalleSitio
-
+      detalleSitio:DetalleSitio,
+      mapa:Mapa
     });
 
     const WIDTH = Dimensions.get('window').width;
