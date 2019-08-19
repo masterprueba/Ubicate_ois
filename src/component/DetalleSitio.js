@@ -9,7 +9,6 @@ import iconMapa from '../resources/Image/mapa.png'
 
 class DestalleSitio extends Component {
 
-
     constructor(props) {
         super(props)
 
@@ -41,8 +40,7 @@ class DestalleSitio extends Component {
         this.props.actionDetSitio(data);
     }
 
-    routeMap(e) {
-        // Alert.alert("Yupiiiiiiiiiiiiii");
+    routeMap(e) {        
         this.props.navigation.navigate("mapa");
     }
 
@@ -87,17 +85,6 @@ class DestalleSitio extends Component {
                     </Container>
                 </View>
                 <View style={styles.fondo}>
-                    {/* <MapView
-            //         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            //         style={styles.map}
-            //         region={{
-            //             latitude: 37.78825,
-            //             longitude: -122.4324, 
-            //             latitudeDelta: 0.015,
-            //             longitudeDelta: 0.0121,
-            //         }}
-            //     >
-            //     </MapView> */}
                     <TouchableOpacity onPress={(e) => { this.routeMap(e) }}>
                         <Container style={{ backgroundColor: "#C5CAE9" }}>
                             <Item>
@@ -125,22 +112,9 @@ const mapStateToProps = state => {
     return { dataSitio: state.detalleReducer }
 }
 
-// const styles = StyleSheet.create({
-//     container: {
-//         ...StyleSheet.absoluteFillObject,
-//         height: 400,
-//         width: 400,
-//         justifyContent: 'flex-end',
-//         alignItems: 'center',
-//     },
-//     map: {
-//         ...StyleSheet.absoluteFillObject,
-//     },
-// });
+
 const styles = {
     fondo: {
-        // flex:100
-        //flexDirection: 'row',
         backgroundColor: "#C5CAE9"
     },
     contenImg: {

@@ -11,7 +11,6 @@ import {StyleSheet, View, Dimensions} from 'react-native';
 import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import {store, persistor} from './store';
-// import {store} from './store.js'
 import { createAppContainer, createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import Inicio from './component/Inicio'
 import Favoritos from './component/Favoritos';
@@ -24,8 +23,6 @@ import DetalleSitio from './component/DetalleSitio';
 import { TextLoader} from 'react-native-indicator';
 import MenuDrawer from './component/MenuDrawer'
 import Mapa from './component/Mapa'
-
-
 
 export default class App extends Component {
   render() {
@@ -59,8 +56,7 @@ export default class App extends Component {
     let Navigation = createAppContainer(DrawerNavigator);
     const loading = <View style={styles.loading}><TextLoader text="Cargando..."></TextLoader></View>
     
-    return (
-      // <Provider store={store}>
+    return (      
      <Provider store={store}>
        <PersistGate loading={loading} persistor={persistor}>
           <Navigation />
