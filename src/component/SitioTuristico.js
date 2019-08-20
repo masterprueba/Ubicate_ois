@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Text, View, Button, Image, ScrollView, Alert, TouchableOpacity } from 'react-native'
 import * as actions from '../actions'
 import { connect } from 'react-redux'
-import { MenuBase } from './MenuBase'
 import styled from 'styled-components'
 import Api from '../utli/Api';
 import {store, persistor} from '../store'

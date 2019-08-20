@@ -12,7 +12,7 @@ import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import {store, persistor} from './store';
 import { createAppContainer, createStackNavigator, createDrawerNavigator } from 'react-navigation';
-import Inicio from './component/Inicio'
+import Inicio from './views/Inicio'
 import Favoritos from './component/Favoritos';
 import Hotel from './component/Hotel';
 import SitioTuristico from './component/SitioTuristico';
@@ -23,6 +23,7 @@ import DetalleSitio from './component/DetalleSitio';
 import { TextLoader} from 'react-native-indicator';
 import MenuDrawer from './component/MenuDrawer'
 import Mapa from './component/Mapa'
+import MapaSitioCercano from './views/MapaSitioCercano'
 
 export default class App extends Component {
   render() {
@@ -36,7 +37,8 @@ export default class App extends Component {
       comida:ComidaBebida,
       gestion:GestionAdministrativa,
       detalleSitio:DetalleSitio,
-      mapa:Mapa
+      mapa:Mapa,
+      mapasitiocercano:MapaSitioCercano
     });
 
     const WIDTH = Dimensions.get('window').width;
