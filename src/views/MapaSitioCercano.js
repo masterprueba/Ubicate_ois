@@ -3,7 +3,8 @@ import { Text, View, Button, Image, ScrollView, Alert, TouchableOpacity, StyleSh
 import * as actions from '../actions'
 import { connect } from 'react-redux'
 import MapView, { Marker } from 'react-native-maps';
-// import console = require('console');
+import Geolocation from 'react-native-geolocation-service';
+import { PermissionsAndroid } from 'react-native';
 
 
 
@@ -22,7 +23,8 @@ class MapaSitioCercano extends Component {
                     latitude: 37.78825,
                     longitude: -122.4324
                 }
-            ]
+            ],
+            puntos: []
         };
     }
 
@@ -34,6 +36,47 @@ class MapaSitioCercano extends Component {
         }
     };
 
+
+    // ----------------------------------------------- //
+
+    obtener = () => {
+        if (tieneElPermiso) {
+           var geolocation =  Geolocation.getCurrentPosition(
+                (position) => {
+                    console.log("position", position);
+                    alert(JSON.stringify(position));
+
+                    var data = this.state.puntos;
+                    data.push({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+                    this.setState({ puntos: data });
+
+                },
+                (error) => {
+                    // See error code charts below.
+                    console.log("error", error);
+                    Alert.alert("" + error.code, error.message);
+                },
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+            );
+            console.log("geolocation",geolocation);
+        } else {
+            this.solicitar();
+        }
+
+    }
+    componentDidMount() {
+        this.solicitar();
+    }
+    // async componentWillMount() {
+    //     await requestLocationPermission() // which always returns "You can use the camera" even if I disable camera permission access on my device
+    // }
+
+    async solicitar() {
+        await requestLocationPermission();
+    }
+
+    // ----------------------------------------------- //
+
     ponerUbicacion(e) {
         var data = this.state.datos;
         data.push(e.nativeEvent.coordinate);
@@ -41,11 +84,9 @@ class MapaSitioCercano extends Component {
     }
 
     cargarPuntos() {
-     
-        // alert("Cargo");
-     
-        console.log("getCamera()","");
-    }    
+        this.obtener
+        console.log("getCamera()", "");
+    }
 
 
     render() {
@@ -54,7 +95,7 @@ class MapaSitioCercano extends Component {
             <View style={styles.container}>
                 <MapView
                     zoomEnabled={true} //Habilita el zoom del mapa
-                    onMapReady={ this.cargarPuntos }
+                    onMapReady={this.cargarPuntos}
                     // onPress={(e) => this.ponerUbicacion(e)}
                     style={styles.map}
                     initialRegion={{
@@ -63,15 +104,13 @@ class MapaSitioCercano extends Component {
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                     }}>
-                    {this.state.datos.map(marker => (
+                    {this.state.puntos.map(marker => (
                         <Marker //draggable *Si se habilita se arrastra*
-                            key={marker.latitude}
                             coordinate={marker}
-                            title='Acuaparque de la caña'
-                            description='Cra. 8 #39-01, Cali, Valle del Cauca'
                         />
                     ))}
                 </MapView>
+                <Button title="Ubicar" onPress={this.obtener}></Button>
             </View>
         )
     }
@@ -85,7 +124,7 @@ const mapStateToProps = state => {
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        height: 600,
+        height: 400,
         width: 500,
         justifyContent: 'flex-end',
         alignItems: 'center',
@@ -94,20 +133,32 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
     },
 });
-// const styles = {
-//     contenPadre: {
-//         // flex:100
-//         flexDirection: 'row',
-//     },
-//     contenImg: {
 
-//         height: 200
-//     },
-//     contenInfo: {
-//         flex: 30,
-//         color: "#2456bf",
-//         fontSize: 16
-//     }
-// }
+var tieneElPermiso = false;
+
+export async function requestLocationPermission() {
+    try {
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+                title: 'Example App',
+                message: 'Example App access to your location ',
+                buttonPositive: 'OK'
+            }
+        )                
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("You can use the location")
+            // alert("You can use the location");
+            tieneElPermiso = true;
+        } else {
+            console.log("location permission denied")
+            alert("Location permission denied");
+            tieneElPermiso = false;
+        }
+    } catch (err) {
+        console.warn(err)
+    }
+}
+
 
 export default connect(mapStateToProps, actions)(MapaSitioCercano)

@@ -24,6 +24,7 @@ import { TextLoader} from 'react-native-indicator';
 import MenuDrawer from './component/MenuDrawer'
 import Mapa from './component/Mapa'
 import MapaSitioCercano from './views/MapaSitioCercano'
+// import Header from '../component/menu_barra/header';
 
 export default class App extends Component {
   render() {
@@ -38,7 +39,8 @@ export default class App extends Component {
       gestion:GestionAdministrativa,
       detalleSitio:DetalleSitio,
       mapa:Mapa,
-      mapasitiocercano:MapaSitioCercano
+      mapasitiocercano:MapaSitioCercano,
+      // header:Header
     });
 
     const WIDTH = Dimensions.get('window').width;
