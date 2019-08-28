@@ -41,11 +41,8 @@ class MapaSitioCercano extends Component {
 
     obtener = () => {
         if (tieneElPermiso) {
-           var geolocation =  Geolocation.getCurrentPosition(
-                (position) => {
-                    console.log("position", position);
-                    alert(JSON.stringify(position));
-
+            Geolocation.getCurrentPosition(
+                (position) => {                   
                     var data = this.state.puntos;
                     data.push({ latitude: position.coords.latitude, longitude: position.coords.longitude });
                     this.setState({ puntos: data });
@@ -56,9 +53,8 @@ class MapaSitioCercano extends Component {
                     console.log("error", error);
                     Alert.alert("" + error.code, error.message);
                 },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-            );
-            console.log("geolocation",geolocation);
+                { enableHighAccuracy: true, timeout: 35000, maximumAge: 10000 }
+            );            
         } else {
             this.solicitar();
         }
