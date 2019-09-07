@@ -7,11 +7,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import iconMapa from '../resources/Image/mapa.png'
 // import Header from '../component/menu_barra/header';
 
+
+
 const { width, height } = Dimensions.get('screen')
 
 const db = [{
   id: 1,
-  title: 'San Andres y Providencia',
+  title: 'San Andres y Providencia..',
   description: 'El jardín de la reina, la del mar de 7 colores',
   img: 'https://www.elespectador.com/sites/default/files/11octubre_tema%2Cph01_1539208503.jpg',
   rating: 4.7,
@@ -37,30 +39,41 @@ const db = [{
 }
 ]
 
-class Inicio extends Component {
+// const documentSnapshot =  firestore()
+//   .collection('users')
+//   .doc('alovelace')
+//   .get();
   
-  scrollX = new Animated.Value(0);  
+// console.log('User data', documentSnapshot.data());
 
-  static navigationOptions = ({ navigation }) => {    
+class Inicio extends Component {
+
+  componentWillMount() {
+    
+  }
+
+  scrollX = new Animated.Value(0);
+
+  static navigationOptions = ({ navigation }) => {
 
     return {
       headerTitle:
         (
           <View style={{ flexDirection: 'row' }}>
-            <View style={{flex: 25}}>
-              <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold',marginTop: 25}}>Ubicate </Text>
+            <View style={{ flex: 25 }}>
+              <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginTop: 25 }}>Ubicate </Text>
             </View>
-            <View style={{flex: 25,marginLeft: 30}}>
+            <View style={{ flex: 25, marginLeft: 30 }}>
               {/* <Text style={{color: 'white', fontSize: 15, marginTop: 30}}>Cerca A Ti :</Text> */}
             </View>
-            <View style={{flex: 25}}>
+            <View style={{ flex: 25 }}>
               <TouchableOpacity
-              onPress={(e) => { navigation.navigate("mapasitiocercano"); }}
+                onPress={(e) => { navigation.navigate("mapasitiocercano"); }}
               >
-                <Image source={iconMapa} style={{height: '85%', width: '50%', marginTop: 9, marginLeft: 40}} />
+                <Image source={iconMapa} style={{ height: '85%', width: '50%', marginTop: 9, marginLeft: 40 }} />
               </TouchableOpacity>
-            </View>            
-          </View>          
+            </View>
+          </View>
         ),
       headerTintColor: 'white',
       headerStyle: {
@@ -122,7 +135,12 @@ class Inicio extends Component {
 
   renderCiudad = (item) => {
     return (
-      <TouchableOpacity activeOpacity={0.8} onPress={() => console.log('tocuhable')}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => {
+          // Read the document for user 'Ada Lovelace':
+          
+
+          // console.log('User data', documentSnapshot.data());
+      }}>
         <ImageBackground
           style={[styles.destination, styles.shadow]}
           imageStyle={{ borderRadius: 12 }}

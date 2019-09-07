@@ -7,6 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "firebase": "^5.1.0",
+    "@react-native-firebase/app": "^0.2.3",
+    "@react-native-firebase/auth": "^0.2.3",
+    "@react-native-firebase/firestore": "^0.2.3",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-drawer": "^2.5.1",

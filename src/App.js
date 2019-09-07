@@ -17,7 +17,7 @@ import Favoritos from './component/Favoritos';
 import Hotel from './component/Hotel';
 import SitioTuristico from './component/SitioTuristico';
 import ComidaBebida from './component/ComidaBebida';
-import GestionAdministrativa from './component/GestionAdministrativa';
+import GestionAdministrativa from './views/GestionAdministrativa';
 import Guia from './component/Guia';
 import DetalleSitio from './component/DetalleSitio';
 import { TextLoader} from 'react-native-indicator';

@@ -3,6 +3,7 @@ import {combineReducers} from 'redux'
 // import homeReducer from './homeReducer'
 import detalleReducer from './detalleReducer'
 import sitioReducer from './sitioReducer'
+import loginReducer from './loginReducer'
 
 // export default combineReducers({
 //     homeReducer: homeReducer
@@ -10,5 +11,6 @@ import sitioReducer from './sitioReducer'
 
 export default combineReducers({
     detalleReducer: detalleReducer,
-    sitioReducer
+    sitioReducer,
+    loginReducer
 }) 
