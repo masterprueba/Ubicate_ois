@@ -27,7 +27,7 @@ const db = [{
   id: 2,
   title: 'Santa Marta',
   description: 'El balcón de América,la perla de América',
-  img: 'http://www.guiasybaquianos.com/wp-content/uploads/2018/11/rodadero.jpg',
+  img: 'https://encolombia.com/wp-content/uploads/2014/01/Turismo-en-Santa-Marta.png',
   rating: 4.8
 },
 {
