@@ -5,7 +5,7 @@ import {
     Image, SafeAreaView, ImageBackground, Alert
 } from 'react-native';
 import ic_menu from './resources/Image/list.png'
-import ic_bandera from './resources/Image/banner.png'
+import ic_bandera from './resources/Image/banner.jpg'
 import iconHome from './resources/Image/007-tent.png'
 import iconHotel from './resources/Image/029-hotel.png'
 import iconStart from './resources/Image/Estrella.png'

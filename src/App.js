@@ -24,6 +24,7 @@ import { TextLoader} from 'react-native-indicator';
 import MenuDrawer from './component/MenuDrawer'
 import Mapa from './component/Mapa'
 import MapaSitioCercano from './views/MapaSitioCercano'
+import Admin from './views/Admin'
 // import Header from '../component/menu_barra/header';
 
 export default class App extends Component {
@@ -40,6 +41,7 @@ export default class App extends Component {
       detalleSitio:DetalleSitio,
       mapa:Mapa,
       mapasitiocercano:MapaSitioCercano,
+      admin:Admin
       // header:Header
     });
 

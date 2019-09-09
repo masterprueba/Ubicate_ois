@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import logoInicio from '../resources/Image/logo-inicio.png'
 import ic_menu from '../resources/Image/list.png'
 import firebase from '../utli/Firesbase'
+import * as actions from '../actions'
+import { connect } from 'react-redux'
+import Header from '../component/menu_barra/header'
 
 
 
@@ -13,27 +16,31 @@ class GestionAdministrativa extends Component {
         super(props);
         this.state = {textEmail: '',password: ''};
       }
+
+      componentWillMount(){
+
+        if(this.props.correo != " "){
+
+            console.log("Correo logueado");
+            this.props.navigation.navigate("admin",
+            {
+                userEmail: this.props.correo
+            });
+        }
+    }      
+
+    
     
     static navigationOptions = ({ navigation }) => {
 
+        let dataHeader = {
+            titulo : 'Gestión Administrativa'
+        }
         return {
+            
             headerTitle:
-                (
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 25 }}>
-                            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginTop: 25 }}>Ubicate </Text>
-                        </View>
-                        <View style={{ flex: 25, marginLeft: 30 }}>
-                            {/* <Text style={{color: 'white', fontSize: 15, marginTop: 30}}>Cerca A Ti :</Text> */}
-                        </View>
-                        <View style={{ flex: 25 }}>
-                            <TouchableOpacity
-                                onPress={(e) => { navigation.navigate("mapasitiocercano"); }}
-                            >
-                                {/* <Image source={iconMapa} style={{ height: '85%', width: '50%', marginTop: 9, marginLeft: 40 }} /> */}
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                (                  
+                    <Header dataHeader={dataHeader}/>
                 ),
             headerTintColor: 'white',
             headerStyle: {
@@ -46,34 +53,56 @@ class GestionAdministrativa extends Component {
                 </TouchableOpacity>
             ),
         };
-    }
-
-    componentDidMount() {}
-
-    // gestTextEmail(e){
-    //     console.log("E:::",e);
-    //     this.setState({
-    //         inputEmail : e
-    //     });
-
-    //     console.log("this.props::",this.props);
-    // }
-
+    }    
 
     tab(e) {        
 
-        console.log("this.props",this.state);
+        let errorCode;
+        let errorMessage;
         
-        var testLogin = firebase.auth().signInWithEmailAndPassword(this.state.textEmail, this.state.password).catch(function (error) {
+        firebase.auth().signInWithEmailAndPassword(this.state.textEmail, this.state.password)
+        .then((data) => {
+
+            // console.log("data_:::::",data);  
+            this.props.actionLoginAdmin(this.state.textEmail,"LoginAdmin");   
+
+            this.props.navigation.navigate("admin",
+            {
+                userEmail:this.state.textEmail
+            });             
+            
+        })
+        .catch(function (error) {
             // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
+            errorCode = error.code;
+            errorMessage = error.message;
+            
             console.log("errorCode::: ", errorCode);
-            console.log("errorMessage::: ", errorMessage);
+            console.log("errorMessage::: ", errorMessage);    
+
+            Alert.alert(errorCode,errorMessage);
+            
         });
 
+        // firebase.auth().onAuthStateChanged( (user) => {
+        //     if (user) {
+        //       // User is signed in.
+        //       console.log("user:::::",user);
+        //       this.props.actionLoginAdmin(this.state.textEmail,"LoginAdmin");   
+
+        //       this.props.navigation.navigate("admin",
+        //       {
+        //           userEmail:this.state.textEmail
+        //       }); 
+              
+        //     } else {
+        //       // No user is signed in.
+        //       console.log("userNotLoegado:::::",user);
+        //     }
+        // });           
+
         // console.log("testLogin::: ", testLogin);
+        console.log("props::: ", this.props);
     }
     render() {
 
@@ -91,17 +120,14 @@ class GestionAdministrativa extends Component {
         const sidebar = (
             <View>               
                 <View>
-                    <Item>
+                    
                         <TextInput
                             style={styles.texto}
                             placeholder="Ingrese su usuario"             
                             onChangeText=
                             {
-                                (tx) =>{ this.setState({textEmail:tx}); }
-                            }
-                            value = {
-                                this.state.textEmail
-                            }
+                                (tx) =>{ this.setState({textEmail:tx}); }                                
+                            }                        
                         />
                         <TextInput
                             style={styles.texto}
@@ -112,7 +138,7 @@ class GestionAdministrativa extends Component {
                             }
                         />
                         <Button title={"Ingresar -"} onPress={(e) => this.tab(e)} />
-                    </Item>
+                    
                     </View>
             </View>
         )
@@ -151,6 +177,8 @@ const styles = {
     }
 }
 
+const mapStateToProps = state => {
+    return { correo: state.loginReducer }
+}
 
-
-export default GestionAdministrativa;
+export default connect(mapStateToProps, actions)(GestionAdministrativa)

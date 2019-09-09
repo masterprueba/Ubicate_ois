@@ -17,3 +17,11 @@ export const actionDetSitio = (data) => {
         payload: data
     }
 }
+
+export const actionLoginAdmin = (data,type) => {
+    
+    return{
+        type:type,
+        payload: data
+    }
+}

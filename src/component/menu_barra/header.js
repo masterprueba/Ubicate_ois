@@ -1,24 +1,24 @@
-// import React, { Component } from 'react'
-// import { Text, View, FlatList, Platform, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ImageBackground } from 'react-native'
-// import iconMapa from '../resources/Image/mapa.png'
+import React, { Component } from 'react'
+import { Text, View, FlatList, Platform, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ImageBackground } from 'react-native'
+import iconRadar from '../../resources/Image/radar.png'
 
-// export default class Header extends Component {
+export default class Header extends Component {
 
-//     render() {
-//         return (
-//             <View style={{ flexDirection: 'row' }}>
-//                 <View style={{ flex: 25 }}>
-//                     <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginTop: 25 }}>Ubicate </Text>
-//                 </View>
-//                 <View style={{ flex: 25, marginLeft: 30 }}>
-//                     {/* <Text style={{color: 'white', fontSize: 15, marginTop: 30}}>Cerca A Ti :</Text> */}
-//                 </View>
-//                 <View style={{ flex: 25 }}>
-//                     <TouchableOpacity>
-//                         <Image source={iconMapa} style={{ height: '85%', width: '50%', marginTop: 9, marginLeft: 40 }} />
-//                     </TouchableOpacity>
-//                 </View>
-//             </View>
-//         );
-//     }
-// }
+    render() {
+        
+        return (
+            <View style={{ flexDirection: 'row' }}>
+                <View style={{ flex: 50 }}>
+                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginTop: 10 }}> {this.props.dataHeader.titulo} </Text>
+                </View>                
+                <View style={{ flex: 50 }}>
+                    <TouchableOpacity
+                        onPress={(e) => { navigation.navigate("mapasitiocercano"); }}
+                    >
+                        <Image source={iconRadar} style={{ height: '80%', width: '100%', marginTop: 9, marginLeft: 55, resizeMode: 'contain' }} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+}

@@ -67,7 +67,7 @@ export default class MenuDrawer extends React.Component {
 			<View style={styles.container}>
 				<ScrollView style={styles.scroller}>
 					<View style={styles.topLinks}>				
-								<ImageBackground source={require('../resources/Image/banner.png')} style={
+								<ImageBackground source={require('../resources/Image/banner.jpg')} style={
                                         {
                                             width: '100%',
 											height: '100%',
@@ -78,7 +78,7 @@ export default class MenuDrawer extends React.Component {
 												<Image style={styles.img} source={require('../resources/Image/042-photo-camera.png')} />
 											</View>
 											<View style={styles.profileText}>
-												<Text style={styles.name}>Guia de cali</Text>
+												<Text style={styles.name}>Guia De Cali</Text>
 											</View>								
 								</ImageBackground>	
 					</View>
@@ -128,11 +128,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	name: {
-		fontSize: 20,		
-		color:'black',
-		opacity: 0.6,
+		fontSize: 30,		
+		color:'green',
+		fontWeight: 'bold',
+		opacity: 1,
 		marginTop:20,
-		marginLeft:20
+		marginLeft: 0
 	},
 	imgView: {
 		flex: 1,
