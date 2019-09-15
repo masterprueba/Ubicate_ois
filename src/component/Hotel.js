@@ -1,59 +1,115 @@
-import React, {Component} from 'react'
-import { connect } from 'react-redux'
-import { Image, ScrollView, } from 'react-native'
-import ImagePicker from 'react-native-image-picker';
 
-class Hotel extends Component{
-
-    state = {       
-        imagen: {uri: 'content://com.ubicate.provider/root/storage/emulated/0/Pictures/images/image-65d6c49b-fa9c-4410-9b35-7f0a5d508f5f.jpg'}
+import React, { Component } from 'react';
+//import react in our code.
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+//import all the components we are going to use.
+import Autocomplete from 'react-native-autocomplete-input';
+//import Autocomplete component
+ 
+const API = 'https://swapi.co/api';
+//Demo base API to get the data for the Autocomplete suggestion
+class Hotel extends Component {
+  constructor(props) {
+    super(props);
+    //Initialization of state
+    //films will contain the array of suggestion
+    //query will have the input from the autocomplete input
+    this.state = {
+      films: [],
+      query: '',
+    };
+  }
+  componentDidMount() {
+    //First method to be called after components mount
+    //fetch the data from the server for the suggestion
+    fetch(`${API}/films/`)
+      .then(res => res.json())
+      .then(json => {
+        const { results: films } = json;
+        this.setState({ films });
+        //setting the data in the films state
+      });
+  }
+  findFilm(query) {
+    //method called everytime when we change the value of the input
+    if (query === '') {
+      //if the query is null then return blank
+      return [];
     }
+ 
+    const { films } = this.state;
+    console.log(films)
+    //making a case insensitive regular expression to get similar value from the film json
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    //return the filtered film array according the query from the input
+    return films.filter(film => film.title.search(regex) >= 0);
+  }
 
-    render(){
-        
-    
-        // More info on all the options is below in the API Reference... just some common use cases shown here
-        const options = {
-        title: 'Seleccione Foto',
-        customButtons: [],
-        storageOptions: {
-            skipBackup: true,
-            path: 'images',
-        },
-        };
-
-        /**
-         * The first arg is the options object for customization (it can also be null or omitted for default options),
-         * The second arg is the callback which sends object: response (more info in the API Reference)
-         */
-        ImagePicker.showImagePicker(options, (response) => {
-        console.log('Response = ', response);
-
-        if (response.didCancel) {
-            console.log('User cancelled image picker');
-        } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
-        } else {
-            //const source = { uri: response.uri };
-
-            // You can also display the image using data:
-             const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-            this.setState({
-            imagen: source
-            });
-        }
-        });    
-        
-        // ImagePicker.launchCamera(options, (response) => {
-        //     // Same code as in above section!
-        //   });
-
-        return (
-            <Image source={this.state.imagen}  style={{ height: 200 }}/>
-        )
-    }
+  
+ 
+  render() {
+    const { query } = this.state;
+    const films = this.findFilm(query);
+    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+ 
+    return (
+      <View style={styles.container}>
+        <Autocomplete
+          autoCapitalize="none"
+          autoCorrect={false}
+          containerStyle={styles.autocompleteContainer}
+          //data to show in suggestion
+          data={films.length === 1 && comp(query, films[0].title) ? [] : films}
+          //default value if you want to set something in input
+          defaultValue={query}
+          /*onchange of the text changing the state of the query which will trigger
+          the findFilm method to show the suggestions*/
+          onChangeText={text => this.setState({ query: text })}
+          placeholder="Enter the film title"
+          renderItem={({ item }) => (
+            //you can change the view you want to show in suggestion from here
+            <TouchableOpacity onPress={() => this.setState({ query: item.title })}>
+              <Text style={styles.itemText}>
+                {item.title} ({item.release_date})
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+        <View style={styles.descriptionContainer}>
+          {films.length > 0 ? (
+            <Text style={styles.infoText}>{this.state.query}</Text>
+          ) : (
+            <Text style={styles.infoText}>Enter The Film Title</Text>
+          )}
+        </View>
+      </View>
+    );
+  }
 }
-export default connect(null, null)(Hotel)
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#F5FCFF',
+    flex: 1,
+    padding: 16,
+    marginTop: 40,
+  },
+  autocompleteContainer: {
+    backgroundColor: '#ffffff',
+    borderWidth: 0,
+  },
+  descriptionContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  itemText: {
+    fontSize: 15,
+    paddingTop: 5,
+    paddingBottom: 5,
+    margin: 2,
+  },
+  infoText: {
+    textAlign: 'center',
+    fontSize: 16,
+  },
+});
+export default Hotel;
