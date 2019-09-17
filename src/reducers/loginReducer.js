@@ -1,6 +1,6 @@
 
 
-export default (state = "LoginAdmin", action) => {
+export default (state = "", action) => {
     switch (action.type) {
         case "LoginAdmin":            
             return action.payload      

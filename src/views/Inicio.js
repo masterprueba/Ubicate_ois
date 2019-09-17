@@ -49,7 +49,7 @@ const db = [{
 class Inicio extends Component {
 
   componentWillMount() {
-    
+    console.log("Props Inicio: ",this.props);
   }
 
   scrollX = new Animated.Value(0);
