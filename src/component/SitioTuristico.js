@@ -35,7 +35,7 @@ class SitioTuristico extends Component {
         };
     }
 
-    _onPressButton(pr,id) {
+    _onPressButton(pr,id) {        
         this.props.navigation.navigate("detalleSitio",
         {
             idSitio:id

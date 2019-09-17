@@ -1,59 +1,58 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Image, ScrollView, } from 'react-native'
-import ImagePicker from 'react-native-image-picker';
+import {
+  StyleSheet,
+  TextInput, // 1. <- Add this 
+  View,
+  Text,
+  TouchableOpacity, 
+} from 'react-native';
 
-class Hotel extends Component {
+class Hotel extends React.Component {
+  state = { name: '' }
 
-    state = {
-        imagen: { uri: 'content://com.ubicate.provider/root/storage/emulated/0/Pictures/images/image-65d6c49b-fa9c-4410-9b35-7f0a5d508f5f.jpg' }
-    }
+  onChangeText = name => this.setState({ name });
 
-    render() {
+  onPress = () => {
+    // 1.
+    this.props.navigation.navigate('chat', { name: this.state.name });
+  }
 
-
-        // More info on all the options is below in the API Reference... just some common use cases shown here
-        const options = {
-            title: 'Seleccione Foto',
-            customButtons: [],
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-        };
-
-        /**
-         * The first arg is the options object for customization (it can also be null or omitted for default options),
-         * The second arg is the callback which sends object: response (more info in the API Reference)
-         */
-        ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
-
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-            } else {
-                //const source = { uri: response.uri };
-
-                // You can also display the image using data:
-                const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-                this.setState({
-                    imagen: source
-                });
-            }
-        });
-
-        // ImagePicker.launchCamera(options, (response) => {
-        //     // Same code as in above section!
-        //   });
-
-        return (
-            <Image source={this.state.imagen} style={{ height: 200 }} />
-        )
-    }
+  render() {
+    return (
+      <View>
+        <TextInput
+          onChangeText={this.onChangeText}
+          style={styles.nameInput}
+          placeHolder="John Cena"
+          value={this.state.name}
+        />
+        <TouchableOpacity onPress={this.onPress}>
+          <Text style={styles.buttonText}>Next</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
+
+const offset = 24;
+const styles = StyleSheet.create({
+  nameInput: { // 3. <- Add a style for the input
+    height: offset * 2,
+    margin: offset,
+    paddingHorizontal: offset,
+    borderColor: '#111111',
+    borderWidth: 1,
+  },
+  title: { // 4.
+    marginTop: offset,
+    marginLeft: offset,
+    fontSize: offset,
+  },
+  buttonText: { // 5.
+    marginLeft: offset,
+    fontSize: offset,
+  },
+});
+
 export default connect(null, null)(Hotel)
