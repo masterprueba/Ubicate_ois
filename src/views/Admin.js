@@ -109,13 +109,15 @@ class Admin extends Component {
         try {
             require('firebase/firestore');
             let db = firebase.firestore();
-
+            require('firebase/storage');
+            let st = firebase.storage();
             const sitiosTuri = await db
                 .collection('sitiosTuristicos')
                 .get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         console.log(`${doc.id} => ${doc.data()}`);
                         console.log("doc.data()=>", doc.data());
+                        st.ref('imgSitios/nftVA2EvU6l35iS25pKl.txt')
                     });
                 });
 
@@ -152,16 +154,9 @@ class Admin extends Component {
                 require('firebase/firestore');
                   
 
-                // let db = firebase.firestore();
+                 let db = firebase.firestore();
                 // ----------------------------------------------------------------------
-
-                let bytes = this.convertToByteArray(imgBase64);
-                // console.log('Byte array loaded', bytes);
-                var blob = new Blob([bytes], {type: 'image/jpeg'});
-                // console.log(pathImg);
-                var file = new File([blob], "filename2.jpg", {type: "image/jpeg"}) 
-
-                let resp =  firebase.storage().ref('imgSitios/filename_112.jpg').put(blob);
+                
                 // resp.putFile(this.state.uri);
                 // let resp2 = resp.put(blob ,{
                 //     contentType: 'image/jpeg'
@@ -175,11 +170,7 @@ class Admin extends Component {
 
                 // console.log("resp:::>>> ",resp);
 
-                // resp.then((resp)=>{
-                //     console.log("resp====>",resp);
-                // }).catch(function (error) {
-                //         console.error("Error adding document: ", error);
-                // });
+                
 
                 // console.log("resp",resp);
                 // const ref = firebase
@@ -193,28 +184,34 @@ class Admin extends Component {
                 //     console.error("Error adding document: ", error);
                 // });
 
-                // await db.collection("sitiosTuristicos").add({
+                await db.collection("sitiosTuristicos").add({
 
-                //     title: Nombre,
-                //     description: Descripcion,
-                //     rating: 0,
-                //     img: '',
-                // })
-                // .then(function(docRef) {
-                //     console.log("Document written with ID: ", docRef.id);
-                //     // var storage = firebase.storage();
-                //     // var storageRef = firebase.storage().ref();
-                //     // firebase.storage().ref(storage).child('file_name.jpg').putString(imagen, "base64", {contentType:"image/jpg"})
-                //     // storageRef.putString(imagen, 'base64').then(function(snapshot) {
-                //     //     console.log('Uploaded a base64 string!');
-                //     //   });
-                //     // ref.putString(imagen, 'base64').then(function(snapshot) {
-                //     //     console.log('Uploaded a base64 string!');
-                //     // });
-                // })
-                // .catch(function(error) {
-                //     console.error("Error adding document: ", error);
-                // });
+                    title: Nombre,
+                    description: Descripcion,
+                    rating: 0,
+                    img: '',
+                })
+                .then(function(docRef) {
+                    console.log("Document written with ID: ", docRef.id);
+                    let baseString = imgBase64;
+                    // console.log('Byte array loaded', bytes);               
+                    var blob = new Blob([baseString], {type: 'text/plain'});
+                    // console.log(pathImg);
+                    var file = new File([blob], "filename2.jpg", {type: "text/plain"}) 
+    
+                    let resp =  firebase.storage().ref('imgSitios/'+docRef.id+'.txt').put(file);
+                    resp.then((resp)=>{
+                        if (resp.state == 'success') {
+                            Alert.alert('Sitio guardado');
+                        }
+                    }).catch(function (error) {
+                            console.error("Error adding document: ", error);
+                    });
+
+                })
+                .catch(function(error) {
+                    console.error("Error adding document: ", error);
+                });
 
 
 

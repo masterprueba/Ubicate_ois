@@ -6,16 +6,60 @@ import styled from 'styled-components'
 import Api from '../utli/Api';
 import {store, persistor} from '../store'
 import ic_menu from '../resources/Image/list.png'
+import firebase from '../utli/Firesbase'
 
 
 class SitioTuristico extends Component {
 
-    async componentDidMount(){
-        const sitios = await Api.getSitios()        
-        store.dispatch({
-            type :'GET_SISTIOS',
-            payload : sitios
-        })
+    async componentWillMount(){
+        // const sitios = await Api.getSitios()        
+        // store.dispatch({
+        //     type :'GET_SISTIOS',
+        //     payload : sitios
+        // })        
+            try {
+                require('firebase/firestore');
+                let db = firebase.firestore();
+                var sitios = new Array()
+                const sitiosTuri = await db
+                    .collection('sitiosTuristicos')
+                    .get().then((querySnapshot) => { 
+                        var conteo=0
+                        querySnapshot.forEach((doc, idx, array) => {                               
+                            const images = firebase.storage().ref().child('imgSitios');
+                            const image = images.child(doc.id+'.txt');
+                            image.getDownloadURL().then((url) => {                                                                                                   
+                                fetch(url).then(function(response) {
+                                    response.text().then(function(text) {
+                                        const json = {"id":doc.id,"title":doc.data().title,"url":'data:image/png;base64,'+text}   
+                                        let data = new Array()
+                                        data["id"] = doc.id
+                                        data["title"] = doc.data().title
+                                        data["url"] = 'data:image/png;base64,'+text
+                                        sitios[conteo] = data                                        
+                                        conteo++
+                                            if (querySnapshot.size === conteo){                                         
+                                                store.dispatch({
+                                                    type :'GET_SISTIOS',
+                                                    payload : sitios
+                                                }) 
+                                            }
+                                    
+                                    });
+                                    
+                                  });
+                                                           
+                            });                                                                                                              
+                                                    
+                        });
+                        
+                        
+                    });
+                
+            } catch (error) {
+                console.log("Error::: ", error)
+            }        
+
     }
 
     static navigationOptions = ({ navigation }) => {        
@@ -41,10 +85,9 @@ class SitioTuristico extends Component {
             idSitio:id
         });        
     }
-
+    
     render() {
-        
-
+                
         const Container = styled.View`
         
         padding:10px 0 30px;
@@ -61,22 +104,23 @@ class SitioTuristico extends Component {
             background-color:#fff;
             width:80%;  
             height:220;          
-            padding:10px;`
-
-
+            padding:10px;`   
+                        
         const sidebar = (
             <View style={{ backgroundColor: "#C5CAE9" }}>
-                {this.props.sitios.map((sitio) =>
-                    <TouchableOpacity onPress={this._onPressButton.bind(this, this.props,sitio.id)} key={sitio.id}>
-                        <Container style={{ backgroundColor: "#C5CAE9" }}>
-                            <Item>
-                                <Image source={{ uri: sitio.url }} style={{ height: 200 }} />
-                                <View style={styles.cajaimg}>
-                                    <Text style={styles.texto}>{sitio.title}</Text>
-                                </View>
-                            </Item>
-                        </Container>
-                    </TouchableOpacity>
+                {this.props.sitios.map((sitio,i) => 
+                    <Text key={i}>{sitio == [] ? "nulo" : sitio.title}</Text>
+                    // <TouchableOpacity onPress={this._onPressButton.bind(this, this.props,sitio.id)} key={i}>
+                    //     <Container style={{ backgroundColor: "#C5CAE9" }}>
+                    //         <Item>
+                    //             { <Image source={{ uri: sitio.url }} style={{ height: 200 }} /> }
+                    //             <View style={styles.cajaimg}>
+                    //                 <Text style={styles.texto}>{sitio.title}</Text>
+                    //             </View>
+                    //         </Item>
+                    //     </Container>
+                    // </TouchableOpacity>                    
+                    
                 )}
             </View>
         );
