@@ -108,18 +108,17 @@ class SitioTuristico extends Component {
                         
         const sidebar = (
             <View style={{ backgroundColor: "#C5CAE9" }}>
-                {this.props.sitios.map((sitio,i) => 
-                    <Text key={i}>{sitio == [] ? "nulo" : sitio.title}</Text>
-                    // <TouchableOpacity onPress={this._onPressButton.bind(this, this.props,sitio.id)} key={i}>
-                    //     <Container style={{ backgroundColor: "#C5CAE9" }}>
-                    //         <Item>
-                    //             { <Image source={{ uri: sitio.url }} style={{ height: 200 }} /> }
-                    //             <View style={styles.cajaimg}>
-                    //                 <Text style={styles.texto}>{sitio.title}</Text>
-                    //             </View>
-                    //         </Item>
-                    //     </Container>
-                    // </TouchableOpacity>                    
+                {this.props.sitios.map((sitio,i) =>                     
+                    <TouchableOpacity onPress={this._onPressButton.bind(this, this.props,sitio.id)} key={i}>
+                        <Container style={{ backgroundColor: "#C5CAE9" }}>
+                            <Item>
+                                { <Image source={{ uri: sitio.url }} style={{ height: 200 }} /> }
+                                <View style={styles.cajaimg}>
+                                    <Text style={styles.texto}>{sitio.title}</Text>
+                                </View>
+                            </Item>
+                        </Container>
+                    </TouchableOpacity>                    
                     
                 )}
             </View>
