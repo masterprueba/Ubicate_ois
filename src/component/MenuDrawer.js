@@ -74,9 +74,6 @@ export default class MenuDrawer extends React.Component {
 											flex:2,
 											flexDirection:'row'
                                         }}>
-											<View style={styles.profile}>
-												<Image style={styles.img} source={require('../resources/Image/042-photo-camera.png')} />
-											</View>
 											<View style={styles.profileText}>
 												<Text style={styles.name}>Guia De Cali</Text>
 											</View>								
@@ -90,14 +87,14 @@ export default class MenuDrawer extends React.Component {
 							{this.navLink('favorito', 'Favoritos',2)}
 						</View>
 						<View style={styles.textlink}>
-							{this.navLink('hotel', 'Hoteles',3)}
+							{this.navLink('hotel', 'Chat Grupal',3)}
 						</View>	
 						<View style={styles.textlink}>
 							{this.navLink('sitio', 'Sitios Turísticos',4)}
 						</View>
-						<View style={styles.textlink}>
+					{/* 	<View style={styles.textlink}>
 							{this.navLink('comida', 'Comidas & Bebidas',5)}
-						</View>	
+						</View>	 */}
 						<View style={styles.textlink}>
 							{this.navLink('gestion', 'Gestion Administrativa',6)}
 						</View>				
