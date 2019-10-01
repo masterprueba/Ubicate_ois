@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import iconMapa from '../resources/Image/mapa.png'
 import Autocomplete from 'react-native-autocomplete-input';
 import firebase from '../utli/Firesbase'
+import {store, persistor} from '../store'
 
 
 
@@ -62,39 +63,88 @@ const listaSitios = [
 
 class Inicio extends Component {
 
+  async componentWillMount(){
+      // const sitios = await Api.getSitios()        
+      // store.dispatch({
+      //     type :'GET_SISTIOS',
+      //     payload : sitios
+      // })        
+          try {
+              require('firebase/firestore');
+              let db = firebase.firestore();
+              var sitios = new Array()
+              const sitiosTuri = await db
+                  .collection('sitiosTuristicos').limit(3)
+                  .get().then((querySnapshot) => { 
+                      var conteo=0
+                      querySnapshot.forEach((doc, idx, array) => {                               
+                          const images = firebase.storage().ref().child('imgSitios');
+                          const image = images.child(doc.id+'.txt');
+                          image.getDownloadURL().then((url) => {                                                                                                   
+                              fetch(url).then(function(response) {
+                                  response.text().then(function(text) {
+                                      const json = {"id":doc.id,"title":doc.data().title,"url":'data:image/png;base64,'+text}   
+                                      let data = new Array()
+                                      data["id"] = doc.id
+                                      data["title"] = doc.data().title
+                                      data["description"] = doc.data().description
+                                      data["rating"] = doc.data().rating
+                                      data["img"] = 'data:image/png;base64,'+text
+                                      sitios[conteo] = data                                        
+                                      conteo++
+                                      
+                                                                            
+                                          if (querySnapshot.size === conteo){                                         
+                                            
+                                              store.dispatch({
+                                                  type :'GET_SISTIOS',
+                                                  payload : sitios
+                                              }) 
+                                          }
+                                  
+                                  });
+                                  
+                                });
+                                                        
+                          });                                                                                                              
+                                                  
+                      });
+                      
+                      
+                  });
+              
+          } catch (error) {
+              console.log("Error::: ", error)
+          }        
+    
+    }
+
   constructor(props) {
     super(props);
     //Initialization of state
     //films will contain the array of suggestion
     //query will have the input from the autocomplete input
-    this.state = {
-      sitios: listaSitios,
-      query: '',
-    };
-
-  }
-
-  componentDidMount(){
-
-    
-
-    // Alert.alert("Este es un cambio")
+    // this.state = {
+    //   // sitios: listaSitios,
+    //   query: '',
+    // };
 
   }
 
 
-  buscaSitios(query) {
+  buscaSitios(query) {    
     //method called everytime when we change the value of the input
     if (query === '') {
       //if the query is null then return blank
       return [];
     }
 
-    const { sitios } = this.state;
+    const { sitios } = this.props;
+    
     //making a case insensitive regular expression to get similar value from the film json
     const regex = new RegExp(`${query.trim()}`, 'i');
     //return the filtered film array according the query from the input
-    return sitios.filter(sitio => sitio.title.search(regex) >= 0);
+    return sitios.filter(sitio => sitio.title == undefined?[]: sitio.title.search(regex) >= 0);
   }
 
   scrollX = new Animated.Value(0);
@@ -134,14 +184,14 @@ class Inicio extends Component {
   }
 
   renderDots() {
-    const { ciudades } = this.props;
+    const { sitios } = this.props;
     const dotPosition = Animated.divide(this.scrollX, width);
     return (
       <View style={[
         styles.flex, styles.row,
         { justifyContent: 'center', alignItems: 'center', marginTop: 10 }
       ]}>
-        {ciudades.map((item, index) => {
+        {sitios.map((item, index) => {
           const borderWidth = dotPosition.interpolate({
             inputRange: [index - 1, index, index + 1],
             outputRange: [0, 2.5, 0],
@@ -161,8 +211,9 @@ class Inicio extends Component {
       </View>
     )
   }
-
+  
   renderCiudades = () => {
+    console.log(this.props.sitios)
     return (<View style={[styles.column]}>
       <FlatList
         horizontal
@@ -173,7 +224,7 @@ class Inicio extends Component {
         scrollEventThrottle={16}
         snapToAlignment="center"
         style={{ overflow: 'visible', height: 370 }}
-        data={this.props.ciudades}
+        data={this.props.sitios}
         keyExtractor={(item, index) => `${item.id}`}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: this.scrollX } } }])}
         renderItem={({ item }) => this.renderCiudad(item)}
@@ -207,7 +258,7 @@ class Inicio extends Component {
           </Text>
           <View style={[styles.row, { justifyContent: 'space-between', alignItems: 'flex-end', }]}>
             <Text style={{ color: '#BCCCD4' }}>
-              {item.description.split('').slice(0, 50)}...
+              {item.description == undefined ? "" :item.description.split('').slice(0, 50)}...
               </Text>
             <FontAwesome
               name="chevron-right"
@@ -221,15 +272,19 @@ class Inicio extends Component {
   }
 
   _autocomplete(item) {
-    this.setState({ query: item.title })
+    store.dispatch({
+      type :'GET_QUERY',
+      payload : item.title
+  }) 
+    // this.setState({ query: item.title })
     this.props.navigation.navigate("detalleSitio",
       {
         idSitio: item.id
       });
   }
-
+  
   render() {
-    const { query } = this.state;
+    const { query } = this.props;
     const sitios = this.buscaSitios(query);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     const header = (<View style={
@@ -260,7 +315,7 @@ class Inicio extends Component {
         />
         <View style={styles.descriptionContainer}>
           {sitios.length > 0 ? (
-            <Text style={styles.infoText}>{this.state.query}</Text>
+            <Text style={styles.infoText}>{this.props.query}</Text>
           ) : (
               <Text style={styles.infoText}>Buscar sitio</Text>
             )}
@@ -398,8 +453,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     id: state,
-    ciudades: db
-
+    ciudades: db,
+    sitios:state.sitioReducer,
+    query:state.queryReducer
   }
 }
 
