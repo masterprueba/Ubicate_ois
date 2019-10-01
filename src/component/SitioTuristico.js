@@ -7,6 +7,10 @@ import Api from '../utli/Api';
 import {store, persistor} from '../store'
 import ic_menu from '../resources/Image/list.png'
 import firebase from '../utli/Firesbase'
+import {
+    CachedImage,
+    ImageCacheProvider
+} from 'react-native-cached-image';
 
 
 class SitioTuristico extends Component {
@@ -31,7 +35,7 @@ class SitioTuristico extends Component {
                             image.getDownloadURL().then((url) => {                                                                                                   
                                 fetch(url).then(function(response) {
                                     response.text().then(function(text) {
-                                        const json = {"id":doc.id,"title":doc.data().title,"url":'data:image/png;base64,'+text}   
+                                        
                                         let data = new Array()
                                         data["id"] = doc.id
                                         data["title"] = doc.data().title
@@ -107,12 +111,12 @@ class SitioTuristico extends Component {
             padding:10px;`   
                         
         const sidebar = (
-            <View style={{ backgroundColor: "#C5CAE9" }}>
+            <View style={{ backgroundColor: "#C5CAE9" }}> 
                 {this.props.sitios.map((sitio,i) =>                     
-                    <TouchableOpacity onPress={this._onPressButton.bind(this, this.props,sitio.id)} key={i}>
+                    <TouchableOpacity onPress={this._onPressButton.bind(this, this.props,sitio)} key={i}>
                         <Container style={{ backgroundColor: "#C5CAE9" }}>
                             <Item>
-                                { <Image source={{ uri: sitio.url }} style={{ height: 200 }} /> }
+                                { <CachedImage source={{ uri: sitio.url }} style={{ height: 200 }} /> }
                                 <View style={styles.cajaimg}>
                                     <Text style={styles.texto}>{sitio.title}</Text>
                                 </View>

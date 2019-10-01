@@ -5,13 +5,19 @@ import { connect } from 'react-redux'
 import Api from '../utli/Api';
 import styled from 'styled-components'
 import iconMapa from '../resources/Image/mapa.png'
+import {
+    CachedImage,
+    ImageCacheProvider
+} from 'react-native-cached-image';
 
+const sitioSelec = null;
 
 class DestalleSitio extends Component {
+    
 
     constructor(props) {
         super(props)
-
+        console.log("props:: ",props);
     }
 
     static navigationOptions = {
@@ -23,22 +29,9 @@ class DestalleSitio extends Component {
     };
 
     async componentDidMount() {
-        const sitios = await Api.getSitios()
-        this.getSitio(sitios);
+        
     }
 
-    getSitio(sitios) {
-
-        let params = this.props.navigation.state.params;
-
-        let data = sitios.find((item) => {
-            if (item.id == params.idSitio) {
-                return true
-            }
-        });
-
-        this.props.actionDetSitio(data);
-    }
 
     routeMap(e) {        
         this.props.navigation.navigate("mapa");
@@ -64,13 +57,15 @@ class DestalleSitio extends Component {
             height:220;          
             padding:10px;`
 
+        this.sitioSelec = this.props.navigation.state.params;        
+
         const sidebar = (
 
             <View>
                 <View style={styles.fondo}>
                     <Container style={styles.fondo}>
                         <Item>
-                            <Image source={{ uri: this.props.dataSitio.url }}
+                            <CachedImage source={{ uri: this.sitioSelec.idSitio['url'] }}
                                 style={styles.contenImg} />
                         </Item>
                     </Container>
@@ -79,7 +74,7 @@ class DestalleSitio extends Component {
                     <Container style={styles.fondo}>
                         <Item>
                             <Text style={styles.contenInfo}>
-                                {this.props.dataSitio.info}
+                                {this.sitioSelec.idSitio['title']}
                             </Text>
                         </Item>
                     </Container>
@@ -98,6 +93,8 @@ class DestalleSitio extends Component {
         );
 
         return (
+
+            
             <View >
                 <ScrollView>
                     {sidebar}
