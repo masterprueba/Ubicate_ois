@@ -8,6 +8,10 @@ import iconMapa from '../resources/Image/mapa.png'
 import Autocomplete from 'react-native-autocomplete-input';
 import firebase from '../utli/Firesbase'
 import {store, persistor} from '../store'
+import {
+  CachedImage,
+  ImageCacheProvider
+} from 'react-native-cached-image';
 
 
 
@@ -241,7 +245,7 @@ class Inicio extends Component {
             idSitio: item.id
           });
       }}>
-        <ImageBackground
+        <CachedImage
           style={[styles.destination, styles.shadow]}
           imageStyle={{ borderRadius: 12 }}
           source={{ uri: item.img }}
@@ -251,7 +255,7 @@ class Inicio extends Component {
               <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 * 1.25 }}>{item.rating}</Text>
             </View>
           </View>
-        </ImageBackground>
+        </CachedImage>
         <View style={[styles.destinationInfo, styles.shadow]}>
           <Text style={{ fontSize: 14 * 1.25, fontWeight: '500', paddingBottom: 8, }}>
             {item.title}
